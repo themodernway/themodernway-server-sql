@@ -7,7 +7,7 @@
 	</configSuffixes>
 	<enableImports><![CDATA[true]]></enableImports>
 	<configs>
-		<config>src/main/resources/com/ait/tooling/server/sql/config/SQLApplicationContext.xml</config>
+		<config>src/main/resources/com/themodernway/server/sql/config/SQLApplicationContext.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
