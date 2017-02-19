@@ -15,7 +15,7 @@ import java.util.Objects;
 
 import javax.sql.DataSource;
 
-import com.ait.tooling.common.api.java.util.StringOps;
+import com.themodernway.common.api.java.util.StringOps;
 import com.themodernway.server.core.json.JSONArray;
 import com.themodernway.server.core.json.JSONObject;
 

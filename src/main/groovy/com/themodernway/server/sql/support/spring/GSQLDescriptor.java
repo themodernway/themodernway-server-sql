@@ -25,8 +25,8 @@ import javax.sql.DataSource;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedResource;
 
-import com.ait.tooling.common.api.java.util.StringOps;
-import com.ait.tooling.common.api.types.Activatable;
+import com.themodernway.common.api.java.util.StringOps;
+import com.themodernway.common.api.types.Activatable;
 import com.themodernway.server.sql.GSQL;
 import com.themodernway.server.sql.IGSQLPreProcessConnectionHandler;
 import com.themodernway.server.sql.IGSQLRowObjectMapper;

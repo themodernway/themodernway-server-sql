@@ -21,8 +21,8 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import com.ait.tooling.common.api.types.IActivatable;
-import com.ait.tooling.common.api.types.INamedType;
+import com.themodernway.common.api.types.IActivatable;
+import com.themodernway.common.api.types.INamedType;
 import com.themodernway.server.sql.GSQL;
 import com.themodernway.server.sql.IGSQLPreProcessConnectionHandler;
 import com.themodernway.server.sql.IGSQLRowObjectMapper;
