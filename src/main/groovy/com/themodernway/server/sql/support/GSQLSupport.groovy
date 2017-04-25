@@ -18,6 +18,7 @@ package com.themodernway.server.sql.support
 
 import com.themodernway.server.core.json.JSONObject
 import com.themodernway.server.core.support.CoreGroovySupport
+import com.themodernway.server.sql.GDataSet
 import com.themodernway.server.sql.GSQL
 import com.themodernway.server.sql.support.spring.GSQLContextInstance
 import com.themodernway.server.sql.support.spring.IGSQLContext
@@ -91,6 +92,38 @@ public class GSQLSupport extends CoreGroovySupport
             return desc.make()
         }
         null
+    }
+    
+    public void forConnection(GSQL gsql, Closure closure)
+    {
+        gsql.cacheConnection {
+                
+            closure(gsql)
+        }
+    }
+    
+    public void forTransaction(GSQL gsql, Closure closure)
+    {
+        gsql.withTransaction {
+                
+            closure(gsql)
+        }
+    }
+    
+    public void forConnection(GDataSet data, Closure closure)
+    {
+        data.cacheConnection {
+                
+            closure(data)
+        }
+    }
+    
+    public void forTransaction(GDataSet data, Closure closure)
+    {
+        data.withTransaction {
+                
+            closure(data)
+        }
     }
 
     public JSONObject jsql(GString query)

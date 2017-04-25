@@ -1,5 +1,17 @@
 /*
- * Copyright (c) 2017, The Modern Way. All rights reserved. Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+ * Copyright (c) 2017, The Modern Way. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package com.themodernway.server.sql;
@@ -18,7 +30,9 @@ import javax.sql.DataSource;
 import com.themodernway.common.api.java.util.StringOps;
 import com.themodernway.server.core.json.JSONArray;
 import com.themodernway.server.core.json.JSONObject;
+import com.themodernway.server.sql.support.GSQLSupport;
 
+import groovy.lang.Closure;
 import groovy.sql.GroovyResultSet;
 import groovy.sql.GroovyRowResult;
 import groovy.sql.InOutParameter;
@@ -72,6 +86,11 @@ public class GSQL extends Sql
         s_default_row_object_mapper = mapper;
     }
 
+    GSQL(final Sql ds)
+    {
+        super(Objects.requireNonNull(ds, "DataSource was null"));
+    }
+    
     public GSQL(final DataSource ds)
     {
         super(Objects.requireNonNull(ds, "DataSource was null"));
@@ -85,6 +104,26 @@ public class GSQL extends Sql
     public void setPreProcessConnectionHandlers(final List<IGSQLPreProcessConnectionHandler> list)
     {
         m_precon_list = list;
+    }
+
+    public GDataSet asDataSet(final String column)
+    {
+        return new GDataSet(this, Objects.requireNonNull(column));
+    }
+
+    public GDataSet asDataSet(final Class<?> type)
+    {
+        return new GDataSet(this, Objects.requireNonNull(type));
+    }
+    
+    public void forConnection(final Closure<?> closure)
+    {
+        GSQLSupport.getSQLSupport().forConnection(this, closure);
+    }
+    
+    public void forTransaction(final Closure<?> closure)
+    {
+        GSQLSupport.getSQLSupport().forTransaction(this, closure);
     }
 
     @Override
@@ -295,7 +334,7 @@ public class GSQL extends Sql
         {
             return array;
         }
-        final String[] labs = new String[cols + 1];// this is hacky + 1 so I don't have to keep doing an index subtract - 1 in the loops.
+        final String[] labs = new String[cols + 1]; // this is hacky + 1 so I don't have to keep doing an index subtract - 1 in the loops.
 
         for (int i = 1; i <= cols; i++)
         {
