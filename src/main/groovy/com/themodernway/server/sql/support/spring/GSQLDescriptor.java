@@ -18,13 +18,13 @@ package com.themodernway.server.sql.support.spring;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
 import javax.sql.DataSource;
 
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedResource;
 
+import com.themodernway.common.api.java.util.CommonOps;
 import com.themodernway.common.api.java.util.StringOps;
 import com.themodernway.common.api.types.Activatable;
 import com.themodernway.server.sql.GSQL;
@@ -51,7 +51,7 @@ public class GSQLDescriptor extends Activatable implements IGSQLDescriptor
     {
         super(true);
 
-        m_data_source = Objects.requireNonNull(datasource);
+        m_data_source = CommonOps.requireNonNull(datasource);
     }
 
     @Override

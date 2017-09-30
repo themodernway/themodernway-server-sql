@@ -23,10 +23,10 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import java.util.Objects;
 
 import javax.sql.DataSource;
 
+import com.themodernway.common.api.java.util.CommonOps;
 import com.themodernway.common.api.java.util.StringOps;
 import com.themodernway.server.core.json.JSONArray;
 import com.themodernway.server.core.json.JSONObject;
@@ -88,12 +88,12 @@ public class GSQL extends Sql
 
     GSQL(final Sql ds)
     {
-        super(Objects.requireNonNull(ds, "DataSource was null"));
+        super(CommonOps.requireNonNull(ds, "DataSource was null"));
     }
-    
+
     public GSQL(final DataSource ds)
     {
-        super(Objects.requireNonNull(ds, "DataSource was null"));
+        super(CommonOps.requireNonNull(ds, "DataSource was null"));
     }
 
     public void setStatementSetObjectHandlers(final List<IGSQLStatementSetObjectHandler> list)
@@ -108,19 +108,19 @@ public class GSQL extends Sql
 
     public GDataSet asDataSet(final String column)
     {
-        return new GDataSet(this, Objects.requireNonNull(column));
+        return new GDataSet(this, CommonOps.requireNonNull(column));
     }
 
     public GDataSet asDataSet(final Class<?> type)
     {
-        return new GDataSet(this, Objects.requireNonNull(type));
+        return new GDataSet(this, CommonOps.requireNonNull(type));
     }
-    
+
     public void forConnection(final Closure<?> closure)
     {
         GSQLSupport.getSQLSupport().forConnection(this, closure);
     }
-    
+
     public void forTransaction(final Closure<?> closure)
     {
         GSQLSupport.getSQLSupport().forTransaction(this, closure);
@@ -137,7 +137,7 @@ public class GSQL extends Sql
         {
             boolean done = false;
 
-            for (IGSQLStatementSetObjectHandler handler : m_setobj_list)
+            for (final IGSQLStatementSetObjectHandler handler : m_setobj_list)
             {
                 if (handler.setObject(statement, i, value))
                 {
@@ -180,9 +180,9 @@ public class GSQL extends Sql
 
             return connection;
         }
-        Connection connection = super.createConnection();
+        final Connection connection = super.createConnection();
 
-        for (IGSQLPreProcessConnectionHandler handler : m_precon_list)
+        for (final IGSQLPreProcessConnectionHandler handler : m_precon_list)
         {
             handler.preProcessConnection(connection);
         }
@@ -196,7 +196,7 @@ public class GSQL extends Sql
     }
 
     @Override
-    protected AbstractQueryCommand createPreparedQueryCommand(String sql, List<Object> queryParams)
+    protected AbstractQueryCommand createPreparedQueryCommand(final String sql, final List<Object> queryParams)
     {
         return super.createPreparedQueryCommand(sql, queryParams);
     }
@@ -206,9 +206,10 @@ public class GSQL extends Sql
         return json(result, s_default_row_object_mapper);
     }
 
+    @SuppressWarnings("unchecked")
     public static final JSONObject json(final GroovyRowResult result, IGSQLRowObjectMapper mapper) throws SQLException
     {
-        Objects.requireNonNull(result, "GroovyRowResult was null");
+        CommonOps.requireNonNull(result, "GroovyRowResult was null");
 
         final JSONObject object = new JSONObject();
 
@@ -218,7 +219,7 @@ public class GSQL extends Sql
         }
         if (null == mapper)
         {
-            for (Object ikey : result.keySet())
+            for (final Object ikey : CommonOps.toList(result.keySet()))
             {
                 final String name = StringOps.toTrimOrNull(ikey.toString());
 
@@ -230,7 +231,7 @@ public class GSQL extends Sql
         }
         else
         {
-            for (Object ikey : result.keySet())
+            for (final Object ikey : CommonOps.toList(result.keySet()))
             {
                 final String name = StringOps.toTrimOrNull(ikey.toString());
 
@@ -250,7 +251,7 @@ public class GSQL extends Sql
 
     public static final JSONObject json(final GroovyResultSet rset, IGSQLRowObjectMapper mapper) throws SQLException
     {
-        Objects.requireNonNull(rset, "GroovyResultSet was null");
+        CommonOps.requireNonNull(rset, "GroovyResultSet was null");
 
         final JSONObject object = new JSONObject();
 
@@ -300,7 +301,7 @@ public class GSQL extends Sql
 
     public static final JSONArray jarr(final List<GroovyRowResult> list, IGSQLRowObjectMapper mapper) throws SQLException
     {
-        Objects.requireNonNull(list, "List<GroovyRowResult> was null");
+        CommonOps.requireNonNull(list, "List<GroovyRowResult> was null");
 
         final JSONArray array = new JSONArray();
 
@@ -308,21 +309,21 @@ public class GSQL extends Sql
         {
             mapper = s_default_row_object_mapper;
         }
-        for (GroovyRowResult result : list)
+        for (final GroovyRowResult result : list)
         {
             array.add(json(result, mapper));
         }
         return array;
     }
 
-    public static final JSONArray jarr(GroovyResultSet rset) throws SQLException
+    public static final JSONArray jarr(final GroovyResultSet rset) throws SQLException
     {
         return jarr(rset, s_default_row_object_mapper);
     }
 
     public static final JSONArray jarr(final GroovyResultSet rset, IGSQLRowObjectMapper mapper) throws SQLException
     {
-        Objects.requireNonNull(rset, "GroovyResultSet was null");
+        CommonOps.requireNonNull(rset, "GroovyResultSet was null");
 
         final JSONArray array = new JSONArray();
 

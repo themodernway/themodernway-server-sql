@@ -22,27 +22,30 @@
 						http://www.springframework.org/schema/context
 						http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="SQLBuildDescriptor" class="com.themodernway.server.core.support.spring.BuildDescriptor">
-		<constructor-arg value="@GRADLE_BUILD_PROJECT_TITLE@"/>
-		<property name="buildUser">
-			<value><![CDATA[@GRADLE_BUILD_USER@]]></value>
-		</property>
-		<property name="buildDate" value="@GRADLE_BUILD_DATE@"/>
-		<property name="javaVersion" value="@GRADLE_JAVA_VERSION@"/>
-		<property name="buildGITCommitHash" value="@GRADLE_GIT_COMMIT_HASH@"/>
-		<property name="buildGITCommitUser">
-			<value><![CDATA[@GRADLE_GIT_COMMIT_USER@]]></value>
-		</property>
-		<property name="buildGITCommitMessage">
-			<value><![CDATA[@GRADLE_GIT_COMMIT_MESSAGE@]]></value>
-		</property>
-		<property name="buildServerHost" value="@GRADLE_BUILD_SERVER_HOST@"/>
-		<property name="buildServerBuild" value="@GRADLE_BUILD_SERVER_BUILD@"/>
-		<property name="buildModuleVersion" value="@GRADLE_BUILD_ARTIFACT_ID@-@GRADLE_BUILD_MODULE_VERSION@.jar"/>
+	<bean id="BootstrapStringCryptoProvider" class="com.themodernway.server.core.security.BootstrapStringCryptoProvider">
+		<constructor-arg>
+			<value>file:/opt/development/properties/themodernway-server-core/crypto.properties</value>
+		</constructor-arg>
 	</bean>
 
-	<bean id="GSQLProvider" class="com.themodernway.server.sql.support.spring.GSQLProvider" destroy-method="close">
-		<constructor-arg value="${sqlprovider.default.name}"/>
+	<bean id="PropertiesProvider" class="com.themodernway.server.core.support.spring.CoreEncryptedPropertiesProviderPlaceholderConfigurer">
+		<constructor-arg ref="BootstrapStringCryptoProvider"/>
+		<constructor-arg value="0xCAFEBABE;"/>
+		<property name="locations">
+			<list>
+				<value>file:/opt/development/properties/themodernway-server-core/webapp.properties</value>
+				<value>classpath:/com/themodernway/server/sql/test/cache.properties</value>
+			</list>
+		</property>
 	</bean>
 
+	<bean id="ScriptingProvider" class="com.themodernway.server.core.scripting.ScriptingProvider" destroy-method="close">
+		<constructor-arg>
+			<list>
+				<bean class="com.themodernway.server.core.scripting.GroovyScriptingProperties"/>
+				<bean class="com.themodernway.server.core.scripting.JavaScriptScriptingProperties"/>
+			</list>
+		</constructor-arg>
+	</bean>
+	
 </beans>

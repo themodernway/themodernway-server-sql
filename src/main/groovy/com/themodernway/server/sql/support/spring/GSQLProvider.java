@@ -45,7 +45,7 @@ public class GSQLProvider implements BeanFactoryAware, IGSQLProvider
     {
         m_default = StringOps.toTrimOrNull(name);
 
-        logger.info("Default ISQLDescriptor Name (" + m_default + ")");
+        logger.info("Default ISQLDescriptor(" + m_default + ")");
     }
 
     @Override
@@ -55,9 +55,17 @@ public class GSQLProvider implements BeanFactoryAware, IGSQLProvider
 
         if (null != name)
         {
-            return m_descriptors.get(name);
+            final IGSQLDescriptor desc = m_descriptors.get(name);
+
+            if (null != desc)
+            {
+                return desc;
+            }
+            logger.error("ISQLDescriptor(" + name + ") not found.");
+
+            return null;
         }
-        logger.error("ISQLDescriptor Name (" + name + ") not found");
+        logger.error("ISQLDescriptor null name.");
 
         return null;
     }
@@ -104,13 +112,13 @@ public class GSQLProvider implements BeanFactoryAware, IGSQLProvider
     @ManagedOperation(description = "Close all SQLDescriptors")
     public void close() throws IOException
     {
-        for (IGSQLDescriptor item : m_descriptors.values())
+        for (final IGSQLDescriptor item : m_descriptors.values())
         {
             try
             {
                 item.close();
             }
-            catch (Exception e)
+            catch (final Exception e)
             {
                 logger.error("Error closing ", e);
             }

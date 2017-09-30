@@ -16,8 +16,7 @@
 
 package com.themodernway.server.sql.support.spring;
 
-import java.util.Objects;
-
+import com.themodernway.common.api.java.util.CommonOps;
 import com.themodernway.server.core.support.spring.ServerContextInstance;
 
 public class GSQLContextInstance extends ServerContextInstance implements IGSQLContext
@@ -36,6 +35,6 @@ public class GSQLContextInstance extends ServerContextInstance implements IGSQLC
     @Override
     public final IGSQLProvider getGSQLProvider()
     {
-        return Objects.requireNonNull(getBeanSafely("GSQLProvider", IGSQLProvider.class), "GSQLProvider is null, initialization error.");
+        return CommonOps.requireNonNull(getBeanSafely("GSQLProvider", IGSQLProvider.class), "GSQLProvider is null, initialization error.");
     }
 }
