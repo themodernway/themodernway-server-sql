@@ -71,14 +71,7 @@ public class GSQL extends Sql
 
     public static final ResultSetOutParameter GSQLRESULTSETOUTPARAMETER(final int type)
     {
-        return new ResultSetOutParameter()
-        {
-            @Override
-            public final int getType()
-            {
-                return type;
-            }
-        };
+        return () -> type;
     }
 
     public static final void setDefaultRowObjectMapper(final IGSQLRowObjectMapper mapper)
@@ -219,7 +212,7 @@ public class GSQL extends Sql
         }
         if (null == mapper)
         {
-            for (final Object ikey : CommonOps.toList(result.keySet()))
+            for (final Object ikey : CommonOps.toKeys(result))
             {
                 final String name = StringOps.toTrimOrNull(ikey.toString());
 
@@ -231,7 +224,7 @@ public class GSQL extends Sql
         }
         else
         {
-            for (final Object ikey : CommonOps.toList(result.keySet()))
+            for (final Object ikey : CommonOps.toKeys(result))
             {
                 final String name = StringOps.toTrimOrNull(ikey.toString());
 

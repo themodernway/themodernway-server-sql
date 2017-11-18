@@ -17,8 +17,6 @@
 package com.themodernway.server.sql.support.spring;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -30,6 +28,7 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedResource;
 
+import com.themodernway.common.api.java.util.CommonOps;
 import com.themodernway.common.api.java.util.StringOps;
 
 @ManagedResource
@@ -73,13 +72,13 @@ public class GSQLProvider implements BeanFactoryAware, IGSQLProvider
     @Override
     public List<String> getSQLDescriptorNames()
     {
-        return Collections.unmodifiableList(new ArrayList<String>(m_descriptors.keySet()));
+        return CommonOps.toUnmodifiableList(m_descriptors.keySet());
     }
 
     @Override
     public List<IGSQLDescriptor> getSQLDescriptors()
     {
-        return Collections.unmodifiableList(new ArrayList<IGSQLDescriptor>(m_descriptors.values()));
+        return CommonOps.toUnmodifiableList(m_descriptors.values());
     }
 
     @Override
