@@ -33,6 +33,7 @@ import com.themodernway.server.core.json.JSONObject;
 import com.themodernway.server.sql.support.GSQLSupport;
 
 import groovy.lang.Closure;
+import groovy.lang.GString;
 import groovy.sql.GroovyResultSet;
 import groovy.sql.GroovyRowResult;
 import groovy.sql.InOutParameter;
@@ -375,5 +376,40 @@ public class GSQL extends Sql
             }
         }
         return array;
+    }
+
+    public static List<Object> CAST_PARAMS(final List<?> params)
+    {
+        return CommonOps.CAST(CommonOps.requireNonNull(params, "params was null"));
+    }
+
+    public int update(final GString update) throws SQLException
+    {
+        return executeUpdate(CommonOps.requireNonNull(update, "update was null"));
+    }
+
+    public int update(final String update, final List<?> params) throws SQLException
+    {
+        return executeUpdate(CommonOps.requireNonNull(update, "update was null"), CAST_PARAMS(params));
+    }
+
+    public GInsertResultList insert(final GString insert) throws SQLException
+    {
+        return new GInsertResultList(executeInsert(CommonOps.requireNonNull(insert, "insert was null")));
+    }
+
+    public List<GroovyRowResult> insert(final GString insert, final GInsertColumns columns) throws SQLException
+    {
+        return executeInsert(CommonOps.requireNonNull(insert, "insert was null"), columns.asList());
+    }
+
+    public GInsertResultList insert(final String insert, final List<?> params) throws SQLException
+    {
+        return new GInsertResultList(executeInsert(CommonOps.requireNonNull(insert, "insert was null"), CAST_PARAMS(params)));
+    }
+
+    public List<GroovyRowResult> insert(final String insert, final List<?> params, final GInsertColumns columns) throws SQLException
+    {
+        return executeInsert(CommonOps.requireNonNull(insert, "insert was null"), CAST_PARAMS(params), columns.asList());
     }
 }

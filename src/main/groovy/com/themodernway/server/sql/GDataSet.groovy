@@ -29,9 +29,9 @@ public class GDataSet extends DataSet
         super(gsql, type)
     }
     
-    public GDataSet(GSQL gsql, String column)
+    public GDataSet(GSQL gsql, String table)
     {
-        super(gsql, column)
+        super(gsql, table)
     }
     
     private GDataSet(DataSet copy)
