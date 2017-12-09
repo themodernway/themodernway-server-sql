@@ -82,6 +82,12 @@ public abstract class AbstractGInsertList<R> extends FixedListIterable<R> implem
         return false;
     }
 
+    @Override
+    public int hashCode()
+    {
+        return super.hashCode();
+    }
+
     protected <T> T toType(final Object object, final Class<T> type)
     {
         requireNonNull(type);

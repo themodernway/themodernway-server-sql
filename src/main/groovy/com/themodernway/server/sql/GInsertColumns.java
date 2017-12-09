@@ -52,4 +52,10 @@ public class GInsertColumns extends AbstractGInsertList<String>
         }
         return false;
     }
+
+    @Override
+    public int hashCode()
+    {
+        return super.hashCode();
+    }
 }

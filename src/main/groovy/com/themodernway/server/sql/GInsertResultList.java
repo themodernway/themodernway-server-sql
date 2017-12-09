@@ -47,4 +47,10 @@ public class GInsertResultList extends AbstractGInsertList<GInsertResult>
         }
         return false;
     }
+
+    @Override
+    public int hashCode()
+    {
+        return super.hashCode();
+    }
 }
