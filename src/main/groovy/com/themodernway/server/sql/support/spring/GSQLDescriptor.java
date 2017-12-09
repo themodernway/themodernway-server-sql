@@ -47,7 +47,7 @@ public class GSQLDescriptor extends Activatable implements IGSQLDescriptor
 
     private transient IGSQLRowObjectMapper                   m_row_object_mapper;
 
-    private transient String                                 m_description    = "Generic GSQLDescriptor";
+    private String                                           m_description    = "Generic GSQLDescriptor";
 
     public GSQLDescriptor(final DataSource datasource)
     {
