@@ -35,19 +35,17 @@ import com.themodernway.server.sql.IGSQLStatementSetObjectHandler;
 @ManagedResource
 public class GSQLDescriptor extends Activatable implements IGSQLDescriptor
 {
-    private static final long                                serialVersionUID = 5910036044926490918L;
+    private String                                 m_name;
 
-    private transient String                                 m_name;
+    private final DataSource                       m_data_source;
 
-    private transient final DataSource                       m_data_source;
+    private List<IGSQLStatementSetObjectHandler>   m_setobj_list;
 
-    private transient List<IGSQLStatementSetObjectHandler>   m_setobj_list;
+    private List<IGSQLPreProcessConnectionHandler> m_precon_list;
 
-    private transient List<IGSQLPreProcessConnectionHandler> m_precon_list;
+    private IGSQLRowObjectMapper                   m_row_object_mapper;
 
-    private transient IGSQLRowObjectMapper                   m_row_object_mapper;
-
-    private String                                           m_description    = "Generic GSQLDescriptor";
+    private String                                 m_description = "Generic GSQLDescriptor";
 
     public GSQLDescriptor(final DataSource datasource)
     {
