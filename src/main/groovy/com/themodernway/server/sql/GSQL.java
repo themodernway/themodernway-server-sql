@@ -200,7 +200,6 @@ public class GSQL extends Sql
         return json(result, s_default_row_object_mapper);
     }
 
-    @SuppressWarnings("unchecked")
     public static final JSONObject json(final GroovyRowResult result, IGSQLRowObjectMapper mapper) throws SQLException
     {
         CommonOps.requireNonNull(result, "GroovyRowResult was null");
@@ -213,7 +212,7 @@ public class GSQL extends Sql
         }
         if (null == mapper)
         {
-            for (final Object ikey : CommonOps.toKeys(result))
+            for (final Object ikey : CommonOps.toKeys(CommonOps.RAWMAP(result)))
             {
                 final String name = StringOps.toTrimOrNull(ikey.toString());
 
@@ -225,7 +224,7 @@ public class GSQL extends Sql
         }
         else
         {
-            for (final Object ikey : CommonOps.toKeys(result))
+            for (final Object ikey : CommonOps.toKeys(CommonOps.RAWMAP(result)))
             {
                 final String name = StringOps.toTrimOrNull(ikey.toString());
 

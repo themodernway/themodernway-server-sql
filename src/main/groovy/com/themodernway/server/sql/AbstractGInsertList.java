@@ -25,19 +25,20 @@ import static com.themodernway.common.api.java.util.CommonOps.toUnmodifiableList
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 
 import com.themodernway.common.api.types.FixedListIterable;
 import com.themodernway.server.core.json.IJSONEnabled;
 import com.themodernway.server.core.json.JSONArray;
 import com.themodernway.server.core.json.binder.JSONBinder.CoreObjectMapper;
 import com.themodernway.server.core.logging.IHasLogging;
+import com.themodernway.server.core.logging.LoggingOps;
 
 import groovy.lang.GString;
 
 public abstract class AbstractGInsertList<R> extends FixedListIterable<R> implements IHasLogging, IJSONEnabled
 {
-    private final Logger m_logger = Logger.getLogger(getClass());
+    private final Logger m_logger = LoggingOps.LOGGER(getClass());
 
     protected AbstractGInsertList(final List<R> result)
     {
