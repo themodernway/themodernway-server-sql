@@ -14,14 +14,14 @@ Maven:
 <dependency>
   <groupId>com.themodernway</groupId>
   <artifactId>themodernway-server-sql</artifactId>
-  <version>2.0.0-RC1</version>
+  <version>2.0.0-RC2</version>
 </dependency>
 ```
 Gradle:
 
 ```
 dependencies {
-    compile(group: 'com.themodernway', name: 'themodernway-server-sql', version: '2.0.0-RC1')
+    compile(group: 'com.themodernway', name: 'themodernway-server-sql', version: '2.0.0-RC2')
 }
 ```
 Javadoc URL:
