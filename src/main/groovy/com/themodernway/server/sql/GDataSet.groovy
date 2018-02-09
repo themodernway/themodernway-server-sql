@@ -28,54 +28,54 @@ public class GDataSet extends DataSet
     {
         super(gsql, type)
     }
-    
+
     public GDataSet(GSQL gsql, String table)
     {
         super(gsql, table)
     }
-    
+
     private GDataSet(DataSet copy)
     {
         super(copy)
     }
-    
+
     private GDataSet(DataSet copy, Closure where, Closure sort)
     {
         super(copy, where, sort)
     }
-    
+
     public GSQL sql()
     {
         new GSQL(this)
     }
-    
+
     public GDataSet find(Closure closure)
     {
-       new GDataSet(this, closure, null)
+        new GDataSet(this, closure, null)
     }
-    
+
     @Override
     public GDataSet sort(Closure sort)
     {
-       new GDataSet(this, null, sort)
+        new GDataSet(this, null, sort)
     }
-    
+
     @Override
     public GDataSet reverse()
     {
         new GDataSet(this)
     }
-    
+
     public GDataSet view(Closure criteria)
     {
         new GDataSet(this, criteria, null)
     }
-    
+
     public void forConnection(Closure closure)
     {
         GSQLSupport.getSQLSupport().forConnection(this, closure)
     }
-    
+
     public void forTransaction(Closure closure)
     {
         GSQLSupport.getSQLSupport().forTransaction(this, closure)

@@ -30,6 +30,7 @@ import org.springframework.jmx.export.annotation.ManagedResource;
 
 import com.themodernway.common.api.java.util.CommonOps;
 import com.themodernway.common.api.java.util.StringOps;
+import com.themodernway.server.core.io.IO;
 import com.themodernway.server.core.logging.LoggingOps;
 
 @ManagedResource
@@ -112,17 +113,7 @@ public class GSQLProvider implements BeanFactoryAware, IGSQLProvider
     @ManagedOperation(description = "Close all SQLDescriptors")
     public void close() throws IOException
     {
-        for (final IGSQLDescriptor item : m_descriptors.values())
-        {
-            try
-            {
-                item.close();
-            }
-            catch (final Exception e)
-            {
-                logger.error("Error closing ", e);
-            }
-        }
+        IO.close(m_descriptors.values());
     }
 
     @Override
