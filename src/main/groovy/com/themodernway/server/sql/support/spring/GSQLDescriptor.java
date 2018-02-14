@@ -21,9 +21,6 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.springframework.jmx.export.annotation.ManagedOperation;
-import org.springframework.jmx.export.annotation.ManagedResource;
-
 import com.themodernway.common.api.java.util.CommonOps;
 import com.themodernway.common.api.java.util.StringOps;
 import com.themodernway.common.api.types.Activatable;
@@ -32,7 +29,6 @@ import com.themodernway.server.sql.IGSQLPreProcessConnectionHandler;
 import com.themodernway.server.sql.IGSQLRowObjectMapper;
 import com.themodernway.server.sql.IGSQLStatementSetObjectHandler;
 
-@ManagedResource
 public class GSQLDescriptor extends Activatable implements IGSQLDescriptor
 {
     private String                                 m_name;
@@ -73,7 +69,6 @@ public class GSQLDescriptor extends Activatable implements IGSQLDescriptor
     }
 
     @Override
-    @ManagedOperation(description = "Get GSQLDescriptor name.")
     public final String getName()
     {
         return m_name;
@@ -119,7 +114,6 @@ public class GSQLDescriptor extends Activatable implements IGSQLDescriptor
     }
 
     @Override
-    @ManagedOperation(description = "Get GSQLDescriptor description.")
     public String getDescription()
     {
         return m_description;
@@ -150,14 +144,12 @@ public class GSQLDescriptor extends Activatable implements IGSQLDescriptor
     }
 
     @Override
-    @ManagedOperation(description = "Is GSQLDescriptor active.")
     public final boolean isActive()
     {
         return super.isActive();
     }
 
     @Override
-    @ManagedOperation(description = "Set GSQLDescriptor active.")
     public final boolean setActive(final boolean active)
     {
         return super.setActive(active);

@@ -25,15 +25,12 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.jmx.export.annotation.ManagedOperation;
-import org.springframework.jmx.export.annotation.ManagedResource;
 
 import com.themodernway.common.api.java.util.CommonOps;
 import com.themodernway.common.api.java.util.StringOps;
 import com.themodernway.server.core.io.IO;
 import com.themodernway.server.core.logging.LoggingOps;
 
-@ManagedResource
 public class GSQLProvider implements BeanFactoryAware, IGSQLProvider
 {
     private static final Logger                          logger        = LoggingOps.LOGGER(GSQLProvider.class);
@@ -110,7 +107,6 @@ public class GSQLProvider implements BeanFactoryAware, IGSQLProvider
     }
 
     @Override
-    @ManagedOperation(description = "Close all SQLDescriptors")
     public void close() throws IOException
     {
         IO.close(m_descriptors.values());
