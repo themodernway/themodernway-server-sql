@@ -16,9 +16,9 @@
 
 package com.themodernway.server.sql;
 
-import static com.themodernway.common.api.java.util.CommonOps.CAST;
-import static com.themodernway.common.api.java.util.CommonOps.NULL;
+import static com.themodernway.common.api.java.util.CommonOps.cast;
 import static com.themodernway.common.api.java.util.CommonOps.isNull;
+import static com.themodernway.common.api.java.util.CommonOps.nulled;
 import static com.themodernway.common.api.java.util.CommonOps.requireNonNull;
 import static com.themodernway.common.api.java.util.CommonOps.toList;
 import static com.themodernway.common.api.java.util.CommonOps.toUnmodifiableList;
@@ -95,22 +95,22 @@ public abstract class AbstractGInsertList<R> extends FixedListIterable<R> implem
 
         if (isNull(object))
         {
-            return NULL();
+            return nulled();
         }
         if (object == this)
         {
             if (type == List.class)
             {
-                return CAST(this.asList());
+                return cast(this.asList());
             }
             if (type == JSONArray.class)
             {
-                return CAST(this.toJSONArray());
+                return cast(this.toJSONArray());
             }
         }
         if (type == Object.class)
         {
-            return CAST(object);
+            return cast(object);
         }
         if (type.isInstance(object))
         {
@@ -118,7 +118,7 @@ public abstract class AbstractGInsertList<R> extends FixedListIterable<R> implem
         }
         if ((type == String.class) || (type == GString.class) || (type == CharSequence.class))
         {
-            return CAST(object.toString());
+            return cast(object.toString());
         }
         try
         {
@@ -128,7 +128,7 @@ public abstract class AbstractGInsertList<R> extends FixedListIterable<R> implem
         {
             logger().error(String.format("type (%s) cannot be coerced into type (%s).", object.getClass().getName(), type.getName()), e);
         }
-        return NULL();
+        return nulled();
     }
 
     public <T> T asType(final Class<T> type)

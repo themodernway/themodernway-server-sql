@@ -212,7 +212,7 @@ public class GSQL extends Sql
         }
         if (null == mapper)
         {
-            for (final Object ikey : CommonOps.toKeys(CommonOps.RAWMAP(result)))
+            for (final Object ikey : CommonOps.toKeys(CommonOps.rawmap(result)))
             {
                 final String name = StringOps.toTrimOrNull(ikey.toString());
 
@@ -224,7 +224,7 @@ public class GSQL extends Sql
         }
         else
         {
-            for (final Object ikey : CommonOps.toKeys(CommonOps.RAWMAP(result)))
+            for (final Object ikey : CommonOps.toKeys(CommonOps.rawmap(result)))
             {
                 final String name = StringOps.toTrimOrNull(ikey.toString());
 
@@ -379,7 +379,7 @@ public class GSQL extends Sql
 
     public static List<Object> CAST_PARAMS(final List<?> params)
     {
-        return CommonOps.CAST(CommonOps.requireNonNull(params, "params was null"));
+        return CommonOps.cast(CommonOps.requireNonNull(params, "params was null"));
     }
 
     public int update(final GString update) throws SQLException
