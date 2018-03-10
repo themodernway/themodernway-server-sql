@@ -18,10 +18,8 @@ package com.themodernway.server.sql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -44,7 +42,7 @@ import groovy.sql.Sql;
 
 public class GSQL extends Sql
 {
-    private static IGSQLRowObjectMapper            s_default_row_object_mapper;
+    private static IGSQLRowObjectMapper            ROWMAPPER;
 
     private List<IGSQLStatementSetObjectHandler>   m_setobj_list;
 
@@ -77,7 +75,7 @@ public class GSQL extends Sql
 
     public static final void setDefaultRowObjectMapper(final IGSQLRowObjectMapper mapper)
     {
-        s_default_row_object_mapper = mapper;
+        ROWMAPPER = mapper;
     }
 
     GSQL(final Sql ds)
@@ -165,7 +163,7 @@ public class GSQL extends Sql
 
     public static final JSONObject json(final GroovyRowResult result) throws SQLException
     {
-        return json(result, s_default_row_object_mapper);
+        return json(result, ROWMAPPER);
     }
 
     public static final JSONObject json(final GroovyRowResult result, IGSQLRowObjectMapper mapper) throws SQLException
@@ -176,7 +174,7 @@ public class GSQL extends Sql
 
         if (null == mapper)
         {
-            mapper = s_default_row_object_mapper;
+            mapper = ROWMAPPER;
         }
         if (null == mapper)
         {
@@ -207,7 +205,7 @@ public class GSQL extends Sql
 
     public static final JSONObject json(final GroovyResultSet rset) throws SQLException
     {
-        return json(rset, s_default_row_object_mapper);
+        return json(rset, ROWMAPPER);
     }
 
     public static final JSONObject json(final GroovyResultSet rset, IGSQLRowObjectMapper mapper) throws SQLException
@@ -226,7 +224,7 @@ public class GSQL extends Sql
         }
         if (null == mapper)
         {
-            mapper = s_default_row_object_mapper;
+            mapper = ROWMAPPER;
         }
         if (null == mapper)
         {
@@ -257,7 +255,7 @@ public class GSQL extends Sql
 
     public static final JSONArray jarr(final List<GroovyRowResult> list) throws SQLException
     {
-        return jarr(list, s_default_row_object_mapper);
+        return jarr(list, ROWMAPPER);
     }
 
     public static final JSONArray jarr(final List<GroovyRowResult> list, IGSQLRowObjectMapper mapper) throws SQLException
@@ -268,7 +266,7 @@ public class GSQL extends Sql
 
         if (null == mapper)
         {
-            mapper = s_default_row_object_mapper;
+            mapper = ROWMAPPER;
         }
         for (final GroovyRowResult result : list)
         {
@@ -279,7 +277,7 @@ public class GSQL extends Sql
 
     public static final JSONArray jarr(final GroovyResultSet rset) throws SQLException
     {
-        return jarr(rset, s_default_row_object_mapper);
+        return jarr(rset, ROWMAPPER);
     }
 
     public static final JSONArray jarr(final GroovyResultSet rset, IGSQLRowObjectMapper mapper) throws SQLException
@@ -304,7 +302,7 @@ public class GSQL extends Sql
         }
         if (null == mapper)
         {
-            mapper = s_default_row_object_mapper;
+            mapper = ROWMAPPER;
         }
         if (null == mapper)
         {

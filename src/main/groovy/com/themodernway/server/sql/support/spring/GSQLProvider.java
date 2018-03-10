@@ -37,13 +37,16 @@ public class GSQLProvider implements BeanFactoryAware, IGSQLProvider
 
     private final String                                 m_default;
 
-    private final LinkedHashMap<String, IGSQLDescriptor> m_descriptors = new LinkedHashMap<String, IGSQLDescriptor>();
+    private final LinkedHashMap<String, IGSQLDescriptor> m_descriptors = new LinkedHashMap<>();
 
     public GSQLProvider(final String name)
     {
         m_default = StringOps.toTrimOrNull(name);
 
-        logger.info("Default ISQLDescriptor(" + m_default + ")");
+        if (logger.isInfoEnabled())
+        {
+            logger.info(String.format("Default ISQLDescriptor(%s)", m_default));
+        }
     }
 
     @Override
@@ -59,12 +62,16 @@ public class GSQLProvider implements BeanFactoryAware, IGSQLProvider
             {
                 return desc;
             }
-            logger.error("ISQLDescriptor(" + name + ") not found.");
-
+            if (logger.isErrorEnabled())
+            {
+                logger.error(String.format("ISQLDescriptor(%s) not found.", name));
+            }
             return null;
         }
-        logger.error("ISQLDescriptor null name.");
-
+        if (logger.isErrorEnabled())
+        {
+            logger.error("ISQLDescriptor null name.");
+        }
         return null;
     }
 
@@ -97,8 +104,10 @@ public class GSQLProvider implements BeanFactoryAware, IGSQLProvider
                     {
                         descriptor.setName(name);
 
-                        logger.info("Found ISQLDescriptor(" + name + ") class " + descriptor.getClass().getName());
-
+                        if (logger.isInfoEnabled())
+                        {
+                            logger.info(String.format("Found ISQLDescriptor class(%s).", descriptor.getClass().getName()));
+                        }
                         m_descriptors.put(name, descriptor);
                     }
                 }
