@@ -148,31 +148,11 @@ public class GSQL extends Sql
     }
 
     @Override
-    protected void closeResources(final Connection connection, final Statement statement, final ResultSet results)
-    {
-        super.closeResources(connection, statement, results);
-    }
-
-    @Override
-    protected void closeResources(final Connection connection, final Statement statement)
-    {
-        super.closeResources(connection, statement);
-    }
-
-    @Override
-    protected void closeResources(final Connection connection)
-    {
-        super.closeResources(connection);
-    }
-
-    @Override
     protected Connection createConnection() throws SQLException
     {
         if ((null == m_precon_list) || (m_precon_list.isEmpty()))
         {
-            final Connection connection = super.createConnection();
-
-            return connection;
+            return super.createConnection();
         }
         final Connection connection = super.createConnection();
 
@@ -181,18 +161,6 @@ public class GSQL extends Sql
             handler.preProcessConnection(connection);
         }
         return connection;
-    }
-
-    @Override
-    protected AbstractQueryCommand createQueryCommand(final String sql)
-    {
-        return super.createQueryCommand(sql);
-    }
-
-    @Override
-    protected AbstractQueryCommand createPreparedQueryCommand(final String sql, final List<Object> queryParams)
-    {
-        return super.createPreparedQueryCommand(sql, queryParams);
     }
 
     public static final JSONObject json(final GroovyRowResult result) throws SQLException
