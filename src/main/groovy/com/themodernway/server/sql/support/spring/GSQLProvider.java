@@ -33,7 +33,7 @@ import com.themodernway.server.core.logging.LoggingOps;
 
 public class GSQLProvider implements BeanFactoryAware, IGSQLProvider
 {
-    private static final Logger                          logger        = LoggingOps.LOGGER(GSQLProvider.class);
+    private static final Logger                          logger        = LoggingOps.getLogger(GSQLProvider.class);
 
     private final String                                 m_default;
 
@@ -45,7 +45,7 @@ public class GSQLProvider implements BeanFactoryAware, IGSQLProvider
 
         if (logger.isInfoEnabled())
         {
-            logger.info(String.format("Default ISQLDescriptor(%s)", m_default));
+            logger.info(LoggingOps.THE_MODERN_WAY_MARKER, String.format("Default ISQLDescriptor(%s)", m_default));
         }
     }
 
@@ -64,13 +64,13 @@ public class GSQLProvider implements BeanFactoryAware, IGSQLProvider
             }
             if (logger.isErrorEnabled())
             {
-                logger.error(String.format("ISQLDescriptor(%s) not found.", name));
+                logger.error(LoggingOps.THE_MODERN_WAY_MARKER, String.format("ISQLDescriptor(%s) not found.", name));
             }
             return null;
         }
         if (logger.isErrorEnabled())
         {
-            logger.error("ISQLDescriptor null name.");
+            logger.error(LoggingOps.THE_MODERN_WAY_MARKER, "ISQLDescriptor null name.");
         }
         return null;
     }

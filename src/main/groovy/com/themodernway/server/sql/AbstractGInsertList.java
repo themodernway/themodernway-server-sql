@@ -18,7 +18,6 @@ package com.themodernway.server.sql;
 
 import static com.themodernway.common.api.java.util.CommonOps.cast;
 import static com.themodernway.common.api.java.util.CommonOps.isNull;
-import static com.themodernway.common.api.java.util.CommonOps.nulled;
 import static com.themodernway.common.api.java.util.CommonOps.requireNonNull;
 import static com.themodernway.common.api.java.util.CommonOps.toList;
 import static com.themodernway.common.api.java.util.CommonOps.toUnmodifiableList;
@@ -38,7 +37,7 @@ import groovy.lang.GString;
 
 public abstract class AbstractGInsertList<R> extends FixedListIterable<R> implements IHasLogging, IJSONEnabled
 {
-    private final Logger m_logger = LoggingOps.LOGGER(getClass());
+    private final Logger m_logger = LoggingOps.getLogger(getClass());
 
     protected AbstractGInsertList(final List<R> result)
     {
@@ -95,7 +94,7 @@ public abstract class AbstractGInsertList<R> extends FixedListIterable<R> implem
 
         if (isNull(object))
         {
-            return nulled();
+            return null;
         }
         if (object == this)
         {
@@ -126,9 +125,12 @@ public abstract class AbstractGInsertList<R> extends FixedListIterable<R> implem
         }
         catch (final Exception e)
         {
-            logger().error(String.format("type (%s) cannot be coerced into type (%s).", object.getClass().getName(), type.getName()), e);
+            if (logger().isErrorEnabled())
+            {
+                logger().error(LoggingOps.THE_MODERN_WAY_MARKER, String.format("type (%s) cannot be coerced into type (%s).", object.getClass().getName(), type.getName()), e);
+            }
         }
-        return nulled();
+        return null;
     }
 
     public <T> T asType(final Class<T> type)
