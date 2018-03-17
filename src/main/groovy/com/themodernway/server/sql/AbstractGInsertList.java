@@ -16,7 +16,7 @@
 
 package com.themodernway.server.sql;
 
-import static com.themodernway.common.api.java.util.CommonOps.cast;
+import static com.themodernway.common.api.java.util.CommonOps.CAST;
 import static com.themodernway.common.api.java.util.CommonOps.isNull;
 import static com.themodernway.common.api.java.util.CommonOps.requireNonNull;
 import static com.themodernway.common.api.java.util.CommonOps.toList;
@@ -100,16 +100,16 @@ public abstract class AbstractGInsertList<R> extends FixedListIterable<R> implem
         {
             if (type == List.class)
             {
-                return cast(this.asList());
+                return CAST(this.asList());
             }
             if (type == JSONArray.class)
             {
-                return cast(this.toJSONArray());
+                return CAST(this.toJSONArray());
             }
         }
         if (type == Object.class)
         {
-            return cast(object);
+            return CAST(object);
         }
         if (type.isInstance(object))
         {
@@ -117,7 +117,7 @@ public abstract class AbstractGInsertList<R> extends FixedListIterable<R> implem
         }
         if ((type == String.class) || (type == GString.class) || (type == CharSequence.class))
         {
-            return cast(object.toString());
+            return CAST(object.toString());
         }
         try
         {

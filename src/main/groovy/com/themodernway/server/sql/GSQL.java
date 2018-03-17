@@ -345,7 +345,7 @@ public class GSQL extends Sql
 
     public static List<Object> CAST_PARAMS(final List<?> params)
     {
-        return CommonOps.cast(CommonOps.requireNonNull(params, "params was null"));
+        return CommonOps.CAST(CommonOps.requireNonNull(params, "params was null"));
     }
 
     public int update(final GString update) throws SQLException
