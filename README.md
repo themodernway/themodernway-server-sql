@@ -1,6 +1,8 @@
 The Modern Way Server SQL
 ======
 
+![<TMW>](http://docs.themodernway.com/tmw4.jpg)
+
 The Modern Way Server SQL is a package containing basic server JDBC support.
 
 https://github.com/themodernway/themodernway-server-sql
