@@ -26,14 +26,14 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 
-import com.themodernway.common.api.java.util.CommonOps;
-import com.themodernway.common.api.java.util.StringOps;
+import com.themodernway.server.core.ICoreBase;
 import com.themodernway.server.core.io.IO;
+import com.themodernway.server.core.logging.IHasLogging;
 import com.themodernway.server.core.logging.LoggingOps;
 
-public class GSQLProvider implements BeanFactoryAware, IGSQLProvider
+public class GSQLProvider implements BeanFactoryAware, IGSQLProvider, ICoreBase, IHasLogging
 {
-    private static final Logger                          logger        = LoggingOps.getLogger(GSQLProvider.class);
+    private final Logger                                 m_logger      = LoggingOps.getLogger(getClass());
 
     private final String                                 m_default;
 
@@ -41,18 +41,18 @@ public class GSQLProvider implements BeanFactoryAware, IGSQLProvider
 
     public GSQLProvider(final String name)
     {
-        m_default = StringOps.toTrimOrNull(name);
+        m_default = toTrimOrNull(name);
 
-        if (logger.isInfoEnabled())
+        if (logger().isInfoEnabled())
         {
-            logger.info(LoggingOps.THE_MODERN_WAY_MARKER, String.format("Default ISQLDescriptor(%s)", m_default));
+            logger().info(LoggingOps.THE_MODERN_WAY_MARKER, format("Default ISQLDescriptor(%s)", m_default));
         }
     }
 
     @Override
     public IGSQLDescriptor getSQLDescriptor(String name)
     {
-        name = StringOps.toTrimOrNull(name);
+        name = toTrimOrNull(name);
 
         if (null != name)
         {
@@ -62,15 +62,15 @@ public class GSQLProvider implements BeanFactoryAware, IGSQLProvider
             {
                 return desc;
             }
-            if (logger.isErrorEnabled())
+            if (logger().isErrorEnabled())
             {
-                logger.error(LoggingOps.THE_MODERN_WAY_MARKER, String.format("ISQLDescriptor(%s) not found.", name));
+                logger().error(LoggingOps.THE_MODERN_WAY_MARKER, format("ISQLDescriptor(%s) not found.", name));
             }
             return null;
         }
-        if (logger.isErrorEnabled())
+        if (logger().isErrorEnabled())
         {
-            logger.error(LoggingOps.THE_MODERN_WAY_MARKER, "ISQLDescriptor null name.");
+            logger().error(LoggingOps.THE_MODERN_WAY_MARKER, "ISQLDescriptor null name.");
         }
         return null;
     }
@@ -78,13 +78,13 @@ public class GSQLProvider implements BeanFactoryAware, IGSQLProvider
     @Override
     public List<String> getSQLDescriptorNames()
     {
-        return CommonOps.toUnmodifiableList(m_descriptors.keySet());
+        return toUnmodifiableList(m_descriptors.keySet());
     }
 
     @Override
     public List<IGSQLDescriptor> getSQLDescriptors()
     {
-        return CommonOps.toUnmodifiableList(m_descriptors.values());
+        return toUnmodifiableList(m_descriptors.values());
     }
 
     @Override
@@ -94,7 +94,7 @@ public class GSQLProvider implements BeanFactoryAware, IGSQLProvider
         {
             for (String name : ((DefaultListableBeanFactory) factory).getBeansOfType(IGSQLDescriptor.class).keySet())
             {
-                name = StringOps.toTrimOrNull(name);
+                name = toTrimOrNull(name);
 
                 if (null != name)
                 {
@@ -104,9 +104,9 @@ public class GSQLProvider implements BeanFactoryAware, IGSQLProvider
                     {
                         descriptor.setName(name);
 
-                        if (logger.isInfoEnabled())
+                        if (logger().isInfoEnabled())
                         {
-                            logger.info(String.format("Found ISQLDescriptor class(%s).", descriptor.getClass().getName()));
+                            logger().info(LoggingOps.THE_MODERN_WAY_MARKER, format("Found ISQLDescriptor class(%s).", descriptor.getClass().getName()));
                         }
                         m_descriptors.put(name, descriptor);
                     }
@@ -125,5 +125,11 @@ public class GSQLProvider implements BeanFactoryAware, IGSQLProvider
     public String getDefaultSQLDescriptorName()
     {
         return m_default;
+    }
+
+    @Override
+    public Logger logger()
+    {
+        return m_logger;
     }
 }

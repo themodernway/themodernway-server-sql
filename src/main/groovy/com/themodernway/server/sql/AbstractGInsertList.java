@@ -100,11 +100,11 @@ public abstract class AbstractGInsertList<R> extends FixedListIterable<R> implem
         {
             if (type == List.class)
             {
-                return CAST(this.asList());
+                return CAST(asList());
             }
             if (type == JSONArray.class)
             {
-                return CAST(this.toJSONArray());
+                return CAST(toJSONArray());
             }
         }
         if (type == Object.class)

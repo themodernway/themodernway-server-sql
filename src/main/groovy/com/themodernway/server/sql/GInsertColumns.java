@@ -36,7 +36,7 @@ public class GInsertColumns extends AbstractGInsertList<String>
     @Override
     public JSONArray toJSONArray()
     {
-        return new JSONArray(this.asList());
+        return new JSONArray(asList());
     }
 
     @Override

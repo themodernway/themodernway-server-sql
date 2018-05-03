@@ -19,6 +19,7 @@ package com.themodernway.server.sql;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+@FunctionalInterface
 public interface IGSQLStatementSetObjectHandler
 {
     public boolean setObject(PreparedStatement statement, int i, Object value) throws SQLException;

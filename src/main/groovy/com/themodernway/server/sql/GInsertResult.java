@@ -30,7 +30,7 @@ public class GInsertResult extends AbstractGInsertList<Object>
     @Override
     public JSONArray toJSONArray()
     {
-        return new JSONArray(this.asList());
+        return new JSONArray(asList());
     }
 
     @Override

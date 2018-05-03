@@ -20,6 +20,7 @@ import java.sql.SQLException;
 
 import com.themodernway.server.core.json.JSONObject;
 
+@FunctionalInterface
 public interface IGSQLRowObjectMapper
 {
     public void mapObject(JSONObject object, String ikey, Object value) throws SQLException;

@@ -31,7 +31,7 @@ public class GInsertResultList extends AbstractGInsertList<GInsertResult>
     @Override
     public JSONArray toJSONArray()
     {
-        return new JSONArray(CommonOps.toList(this.asList().stream().map(resu -> resu.toJSONArray())));
+        return new JSONArray(asList().stream().map(resu -> resu.toJSONArray()));
     }
 
     @Override

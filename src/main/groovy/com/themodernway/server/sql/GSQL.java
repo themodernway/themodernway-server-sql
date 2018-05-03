@@ -28,7 +28,7 @@ import com.themodernway.common.api.java.util.CommonOps;
 import com.themodernway.common.api.java.util.StringOps;
 import com.themodernway.server.core.json.JSONArray;
 import com.themodernway.server.core.json.JSONObject;
-import com.themodernway.server.sql.support.GSQLSupport;
+import com.themodernway.server.sql.support.SQLSupport;
 
 import groovy.lang.Closure;
 import groovy.lang.GString;
@@ -42,7 +42,7 @@ import groovy.sql.Sql;
 
 public class GSQL extends Sql
 {
-    private static IGSQLRowObjectMapper            rowmapper;
+    private static IGSQLRowObjectMapper            ROWMAPPER;
 
     private List<IGSQLStatementSetObjectHandler>   m_setobj_list;
 
@@ -75,7 +75,7 @@ public class GSQL extends Sql
 
     public static final void setDefaultRowObjectMapper(final IGSQLRowObjectMapper mapper)
     {
-        rowmapper = mapper;
+        ROWMAPPER = mapper;
     }
 
     GSQL(final Sql ds)
@@ -110,12 +110,12 @@ public class GSQL extends Sql
 
     public void forConnection(final Closure<?> closure)
     {
-        GSQLSupport.getSQLSupport().forConnection(this, closure);
+        SQLSupport.getSQLSupport().forConnection(this, closure);
     }
 
     public void forTransaction(final Closure<?> closure)
     {
-        GSQLSupport.getSQLSupport().forTransaction(this, closure);
+        SQLSupport.getSQLSupport().forTransaction(this, closure);
     }
 
     @Override
@@ -163,33 +163,29 @@ public class GSQL extends Sql
 
     public static final JSONObject json(final GroovyRowResult result) throws SQLException
     {
-        return json(result, rowmapper);
+        return json(result, ROWMAPPER);
     }
 
     public static final JSONObject json(final GroovyRowResult result, IGSQLRowObjectMapper mapper) throws SQLException
     {
         CommonOps.requireNonNull(result, "GroovyRowResult was null");
 
-        final JSONObject object = new JSONObject();
-
-        if (null == mapper)
+        if (result.isEmpty())
         {
-            mapper = rowmapper;
+            return new JSONObject(0);
         }
         if (null == mapper)
         {
-            for (final Object ikey : CommonOps.toKeys(CommonOps.rawmap(result)))
-            {
-                final String name = StringOps.toTrimOrNull(ikey.toString());
-
-                if (null != name)
-                {
-                    object.put(name, result.get(ikey));
-                }
-            }
+            mapper = ROWMAPPER;
+        }
+        if (null == mapper)
+        {
+            return new JSONObject(CommonOps.rawmap(result));
         }
         else
         {
+            final JSONObject object = new JSONObject(result.size());
+
             for (final Object ikey : CommonOps.toKeys(CommonOps.rawmap(result)))
             {
                 final String name = StringOps.toTrimOrNull(ikey.toString());
@@ -199,24 +195,24 @@ public class GSQL extends Sql
                     mapper.mapObject(object, name, result.get(ikey));
                 }
             }
+            return object;
         }
-        return object;
     }
 
     public static final JSONObject json(final GroovyResultSet rset) throws SQLException
     {
-        return json(rset, rowmapper);
+        return json(rset, ROWMAPPER);
     }
 
     public static final JSONObject json(final GroovyResultSet rset, IGSQLRowObjectMapper mapper) throws SQLException
     {
         CommonOps.requireNonNull(rset, "GroovyResultSet was null");
 
-        final JSONObject object = new JSONObject();
-
         final ResultSetMetaData meta = rset.getMetaData();
 
         final int cols = meta.getColumnCount();
+
+        final JSONObject object = new JSONObject(cols);
 
         if (cols < 1)
         {
@@ -224,7 +220,7 @@ public class GSQL extends Sql
         }
         if (null == mapper)
         {
-            mapper = rowmapper;
+            mapper = ROWMAPPER;
         }
         if (null == mapper)
         {
@@ -255,19 +251,27 @@ public class GSQL extends Sql
 
     public static final JSONArray jarr(final List<GroovyRowResult> list) throws SQLException
     {
-        return jarr(list, rowmapper);
+        return jarr(list, ROWMAPPER);
     }
 
     public static final JSONArray jarr(final List<GroovyRowResult> list, IGSQLRowObjectMapper mapper) throws SQLException
     {
         CommonOps.requireNonNull(list, "List<GroovyRowResult> was null");
 
-        final JSONArray array = new JSONArray();
-
+        if (list.isEmpty())
+        {
+            return new JSONArray(0);
+        }
         if (null == mapper)
         {
-            mapper = rowmapper;
+            mapper = ROWMAPPER;
         }
+        if (null == mapper)
+        {
+            return new JSONArray(list);
+        }
+        final JSONArray array = new JSONArray(list.size());
+
         for (final GroovyRowResult result : list)
         {
             array.add(json(result, mapper));
@@ -277,18 +281,18 @@ public class GSQL extends Sql
 
     public static final JSONArray jarr(final GroovyResultSet rset) throws SQLException
     {
-        return jarr(rset, rowmapper);
+        return jarr(rset, ROWMAPPER);
     }
 
     public static final JSONArray jarr(final GroovyResultSet rset, IGSQLRowObjectMapper mapper) throws SQLException
     {
         CommonOps.requireNonNull(rset, "GroovyResultSet was null");
 
-        final JSONArray array = new JSONArray();
-
         final ResultSetMetaData meta = rset.getMetaData();
 
         final int cols = meta.getColumnCount();
+
+        final JSONArray array = new JSONArray(cols);
 
         if (cols < 1)
         {
@@ -302,13 +306,13 @@ public class GSQL extends Sql
         }
         if (null == mapper)
         {
-            mapper = rowmapper;
+            mapper = ROWMAPPER;
         }
         if (null == mapper)
         {
             while (rset.next())
             {
-                final JSONObject object = new JSONObject();
+                final JSONObject object = new JSONObject(cols);
 
                 for (int i = 1; i <= cols; i++)
                 {
@@ -326,7 +330,7 @@ public class GSQL extends Sql
         {
             while (rset.next())
             {
-                final JSONObject object = new JSONObject();
+                final JSONObject object = new JSONObject(cols);
 
                 for (int i = 1; i <= cols; i++)
                 {

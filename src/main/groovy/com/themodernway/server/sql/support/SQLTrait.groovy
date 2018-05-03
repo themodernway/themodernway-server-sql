@@ -30,7 +30,7 @@ import groovy.transform.CompileStatic
 import groovy.transform.Memoized
 
 @CompileStatic
-public trait GSQLTrait
+public trait SQLTrait
 {
     @Memoized
     public IGSQLContext getGSQLContext()
@@ -116,16 +116,6 @@ public trait GSQLTrait
         }
     }
 
-    public JSONObject jsql(GString query)
-    {
-        jrows(gsql().rows(CommonOps.requireNonNull(query)))
-    }
-
-    public JSONObject jsql(String name, GString query)
-    {
-        jrows(gsql(CommonOps.requireNonNull(name)).rows(CommonOps.requireNonNull(query)))
-    }
-
     public JSONObject jsql(String query)
     {
         jrows(gsql().rows(CommonOps.requireNonNull(query)))
@@ -134,16 +124,6 @@ public trait GSQLTrait
     public JSONObject jsql(String name, String query)
     {
         jrows(gsql(CommonOps.requireNonNull(name)).rows(CommonOps.requireNonNull(query)))
-    }
-
-    public JSONObject jsql(GString query, List<?> params)
-    {
-        jrows(gsql().rows(CommonOps.requireNonNull(query), CommonOps.requireNonNull(params)))
-    }
-
-    public JSONObject jsql(String name, GString query, List<?> params)
-    {
-        jrows(gsql(CommonOps.requireNonNull(name)).rows(CommonOps.requireNonNull(query), CommonOps.requireNonNull(params)))
     }
 
     public JSONObject jsql(String query, List<?> params)
@@ -159,5 +139,15 @@ public trait GSQLTrait
     public JSONObject jrows(List<GroovyRowResult> list)
     {
         new JSONObject(GSQL.jarr(CommonOps.requireNonNull(list)))
+    }
+
+    public JSONObject jquery(String jkey, String query)
+    {
+        new JSONObject(CommonOps.requireNonNull(jkey), GSQL.jarr(gsql().rows(CommonOps.requireNonNull(query))) as Object)
+    }
+
+    public JSONObject jquery(String jkey, String query, List<?> params)
+    {
+        new JSONObject(CommonOps.requireNonNull(jkey), GSQL.jarr(gsql().rows(CommonOps.requireNonNull(query), CommonOps.requireNonNull(params))) as Object)
     }
 }

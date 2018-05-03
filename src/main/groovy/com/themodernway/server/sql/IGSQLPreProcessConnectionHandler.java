@@ -19,6 +19,7 @@ package com.themodernway.server.sql;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+@FunctionalInterface
 public interface IGSQLPreProcessConnectionHandler
 {
     public void preProcessConnection(Connection connection) throws SQLException;

@@ -31,12 +31,12 @@ import groovy.transform.CompileStatic
 import groovy.transform.Memoized
 
 @CompileStatic
-public class GSQLSupport extends CoreGroovySupport
+public class SQLSupport extends CoreGroovySupport
 {
-    private static final GSQLSupport INSTANCE = new GSQLSupport()
+    private static final SQLSupport INSTANCE = new SQLSupport()
 
     @Memoized
-    public static final GSQLSupport getSQLSupport()
+    public static final SQLSupport getSQLSupport()
     {
         INSTANCE
     }
@@ -127,16 +127,6 @@ public class GSQLSupport extends CoreGroovySupport
         }
     }
 
-    public JSONObject jsql(GString query)
-    {
-        jrows(gsql().rows(CommonOps.requireNonNull(query)))
-    }
-
-    public JSONObject jsql(String name, GString query)
-    {
-        jrows(gsql(CommonOps.requireNonNull(name)).rows(CommonOps.requireNonNull(query)))
-    }
-
     public JSONObject jsql(String query)
     {
         jrows(gsql().rows(CommonOps.requireNonNull(query)))
@@ -145,16 +135,6 @@ public class GSQLSupport extends CoreGroovySupport
     public JSONObject jsql(String name, String query)
     {
         jrows(gsql(CommonOps.requireNonNull(name)).rows(CommonOps.requireNonNull(query)))
-    }
-
-    public JSONObject jsql(GString query, List<?> params)
-    {
-        jrows(gsql().rows(CommonOps.requireNonNull(query), CommonOps.requireNonNull(params)))
-    }
-
-    public JSONObject jsql(String name, GString query, List<?> params)
-    {
-        jrows(gsql(CommonOps.requireNonNull(name)).rows(CommonOps.requireNonNull(query), CommonOps.requireNonNull(params)))
     }
 
     public JSONObject jsql(String query, List<?> params)
@@ -170,5 +150,15 @@ public class GSQLSupport extends CoreGroovySupport
     public JSONObject jrows(List<GroovyRowResult> list)
     {
         json(GSQL.jarr(CommonOps.requireNonNull(list)))
+    }
+
+    public JSONObject jquery(String jkey, String query)
+    {
+        json(CommonOps.requireNonNull(jkey), GSQL.jarr(gsql().rows(CommonOps.requireNonNull(query))))
+    }
+
+    public JSONObject jquery(String jkey, String query, List<?> params)
+    {
+        json(CommonOps.requireNonNull(jkey), GSQL.jarr(gsql().rows(CommonOps.requireNonNull(query), CommonOps.requireNonNull(params))))
     }
 }

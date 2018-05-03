@@ -21,15 +21,14 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import com.themodernway.common.api.java.util.CommonOps;
-import com.themodernway.common.api.java.util.StringOps;
 import com.themodernway.common.api.types.Activatable;
+import com.themodernway.server.core.ICoreBase;
 import com.themodernway.server.sql.GSQL;
 import com.themodernway.server.sql.IGSQLPreProcessConnectionHandler;
 import com.themodernway.server.sql.IGSQLRowObjectMapper;
 import com.themodernway.server.sql.IGSQLStatementSetObjectHandler;
 
-public class GSQLDescriptor extends Activatable implements IGSQLDescriptor
+public class GSQLDescriptor extends Activatable implements IGSQLDescriptor, ICoreBase
 {
     private String                                 m_name;
 
@@ -47,7 +46,7 @@ public class GSQLDescriptor extends Activatable implements IGSQLDescriptor
     {
         super(true);
 
-        m_data_source = CommonOps.requireNonNull(datasource);
+        m_data_source = requireNonNull(datasource);
     }
 
     @Override
@@ -77,7 +76,7 @@ public class GSQLDescriptor extends Activatable implements IGSQLDescriptor
     @Override
     public final void setName(final String name)
     {
-        m_name = StringOps.requireTrimOrNull(name, "GSQLDescriptor name is null");
+        m_name = requireTrimOrNull(name, "GSQLDescriptor name is null");
     }
 
     @Override
@@ -105,7 +104,7 @@ public class GSQLDescriptor extends Activatable implements IGSQLDescriptor
     @Override
     public void setDescription(String description)
     {
-        description = StringOps.toTrimOrNull(description);
+        description = toTrimOrNull(description);
 
         if (null != description)
         {
