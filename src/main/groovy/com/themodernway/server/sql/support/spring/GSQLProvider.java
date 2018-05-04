@@ -50,7 +50,7 @@ public class GSQLProvider implements BeanFactoryAware, IGSQLProvider, ICoreBase,
     }
 
     @Override
-    public IGSQLDescriptor getSQLDescriptor(String name)
+    public IGSQLDescriptor getGSQLDescriptor(String name)
     {
         name = toTrimOrNull(name);
 
@@ -76,13 +76,13 @@ public class GSQLProvider implements BeanFactoryAware, IGSQLProvider, ICoreBase,
     }
 
     @Override
-    public List<String> getSQLDescriptorNames()
+    public List<String> getGSQLDescriptorNames()
     {
         return toUnmodifiableList(m_descriptors.keySet());
     }
 
     @Override
-    public List<IGSQLDescriptor> getSQLDescriptors()
+    public List<IGSQLDescriptor> getGSQLDescriptors()
     {
         return toUnmodifiableList(m_descriptors.values());
     }
@@ -122,7 +122,7 @@ public class GSQLProvider implements BeanFactoryAware, IGSQLProvider, ICoreBase,
     }
 
     @Override
-    public String getDefaultSQLDescriptorName()
+    public String getDefaultGSQLDescriptorName()
     {
         return m_default;
     }

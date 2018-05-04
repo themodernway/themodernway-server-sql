@@ -31,12 +31,12 @@ import groovy.transform.CompileStatic
 import groovy.transform.Memoized
 
 @CompileStatic
-public class SQLSupport extends CoreGroovySupport
+public class GSQLSupport extends CoreGroovySupport
 {
-    private static final SQLSupport INSTANCE = new SQLSupport()
+    private static final GSQLSupport INSTANCE = new GSQLSupport()
 
     @Memoized
-    public static final SQLSupport getSQLSupport()
+    public static final GSQLSupport getSQLSupport()
     {
         INSTANCE
     }
@@ -54,27 +54,27 @@ public class SQLSupport extends CoreGroovySupport
     }
 
     @Memoized
-    public IGSQLDescriptor getSQLDescriptor(String name)
+    public IGSQLDescriptor getGSQLDescriptor(String name)
     {
-        getGSQLProvider().getSQLDescriptor(CommonOps.requireNonNull(name))
+        getGSQLProvider().getGSQLDescriptor(CommonOps.requireNonNull(name))
     }
 
     @Memoized
-    public IGSQLDescriptor getSQLDescriptor()
+    public IGSQLDescriptor getGSQLDescriptor()
     {
-        getGSQLProvider().getSQLDescriptor(getDefaultSQLDescriptorName())
+        getGSQLProvider().getGSQLDescriptor(getDefaultGSQLDescriptorName())
     }
 
     @Memoized
-    public String getDefaultSQLDescriptorName()
+    public String getDefaultGSQLDescriptorName()
     {
-        getGSQLProvider().getDefaultSQLDescriptorName()
+        getGSQLProvider().getDefaultGSQLDescriptorName()
     }
 
     @Memoized
     public GSQL gsql(final String name)
     {
-        final IGSQLDescriptor desc = getSQLDescriptor(CommonOps.requireNonNull(name))
+        final IGSQLDescriptor desc = getGSQLDescriptor(CommonOps.requireNonNull(name))
 
         if (desc)
         {
@@ -86,7 +86,7 @@ public class SQLSupport extends CoreGroovySupport
     @Memoized
     public GSQL gsql()
     {
-        final IGSQLDescriptor desc = getSQLDescriptor()
+        final IGSQLDescriptor desc = getGSQLDescriptor()
 
         if (desc)
         {

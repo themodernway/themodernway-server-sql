@@ -16,86 +16,40 @@
 
 package com.themodernway.server.sql.test.util
 
-import org.slf4j.Logger
-
-import com.themodernway.server.core.logging.IHasLogging
-import com.themodernway.server.core.logging.LoggingOps
-import com.themodernway.server.core.support.CoreGroovyTrait
 import com.themodernway.server.sql.GSQL
-import com.themodernway.server.sql.support.SQLTrait
 
-public class UsersBean implements CoreGroovyTrait, SQLTrait, IHasLogging, Closeable
-{
-    private int m_rows
+public class UsersBean extends AbstractGSQLBean<UsersBean> {
 
-    private boolean m_open = false
+    public UsersBean(final int rows) {
 
-    private final Logger m_logger = LoggingOps.getLogger(getClass())
-
-    public UsersBean(final int rows)
-    {
-        m_rows = rows
+        super(rows, 'users')
     }
 
-    public boolean open()
-    {
-        m_open
-    }
+    @Override
+    public UsersBean delete(final GSQL gsql) {
 
-    public UsersBean clean()
-    {
-        if (logger().isDebugEnabled())
-        {
-            logger().debug("clean(${open()}).")
-        }
-        gsql().forConnection { GSQL conn ->
+        gsql.execute(format('DROP INDEX IF EXISTS %s', getIndex()))
 
-            conn.execute('DROP INDEX IF EXISTS undex')
-
-            conn.execute('DROP TABLE IF EXISTS users')
-
-            conn.execute('CREATE TABLE users (ID NUMERIC NOT NULL AUTO_INCREMENT, NAME VARCHAR (256) NOT NULL, COUNT NUMERIC UNIQUE NOT NULL)')
-
-            conn.execute('CREATE UNIQUE INDEX undex ON users (COUNT)')
-        }
-        m_open = true
+        gsql.execute(format('DROP TABLE IF EXISTS %s', getTable()))
 
         this
     }
 
-    public UsersBean setup()
-    {
-        if (false == open())
-        {
-            clean()
-        }
-        if (logger().isDebugEnabled())
-        {
-            logger().debug("setup(${open()}).")
-        }
-        gsql().forConnection { GSQL conn ->
+    @Override
+    public UsersBean create(final GSQL gsql) {
 
-            m_rows.times { int i ->
+        final String table = getTable()
 
-                conn.execute("INSERT INTO users (NAME, COUNT) VALUES ('Dean S Jones', ${i})")
-            }
+        final String index = getIndex()
+
+        gsql.execute(format("CREATE TABLE %s (ID NUMERIC NOT NULL AUTO_INCREMENT, NAME VARCHAR(256) NOT NULL, VALUE NUMERIC UNIQUE NOT NULL)", table))
+
+        gsql.execute(format("CREATE UNIQUE INDEX %s ON %s (VALUE)", index, table))
+
+        getRows().times { int value ->
+
+            gsql.execute(format("INSERT INTO %s (NAME, VALUE) VALUES ('Dean S Jones', %d)", table, value))
         }
         this
-    }
-
-    @Override
-    public void close() throws IOException
-    {
-        if (logger().isDebugEnabled())
-        {
-            logger().debug("close(${open()}).")
-        }
-        m_open = false
-    }
-
-    @Override
-    public Logger logger()
-    {
-        m_logger
     }
 }

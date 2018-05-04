@@ -28,7 +28,7 @@ import com.themodernway.common.api.java.util.CommonOps;
 import com.themodernway.common.api.java.util.StringOps;
 import com.themodernway.server.core.json.JSONArray;
 import com.themodernway.server.core.json.JSONObject;
-import com.themodernway.server.sql.support.SQLSupport;
+import com.themodernway.server.sql.support.GSQLSupport;
 
 import groovy.lang.Closure;
 import groovy.lang.GString;
@@ -98,24 +98,24 @@ public class GSQL extends Sql
         m_precon_list = list;
     }
 
-    public GDataSet asDataSet(final String column)
+    public GDataSet dataset(final String table)
     {
-        return new GDataSet(this, CommonOps.requireNonNull(column));
+        return new GDataSet(this, CommonOps.requireNonNull(table));
     }
 
-    public GDataSet asDataSet(final Class<?> type)
+    public GDataSet data(final Class<?> type)
     {
         return new GDataSet(this, CommonOps.requireNonNull(type));
     }
 
     public void forConnection(final Closure<?> closure)
     {
-        SQLSupport.getSQLSupport().forConnection(this, closure);
+        GSQLSupport.getSQLSupport().forConnection(this, closure);
     }
 
     public void forTransaction(final Closure<?> closure)
     {
-        SQLSupport.getSQLSupport().forTransaction(this, closure);
+        GSQLSupport.getSQLSupport().forTransaction(this, closure);
     }
 
     @Override

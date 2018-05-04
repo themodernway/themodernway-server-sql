@@ -19,18 +19,19 @@ package com.themodernway.server.sql.test
 import com.themodernway.server.core.NanoTimer
 import com.themodernway.server.core.support.CoreGroovyTrait
 import com.themodernway.server.core.support.spring.testing.spock.ServerCoreSpecification
-import com.themodernway.server.sql.support.SQLTrait
+import com.themodernway.server.sql.support.GSQLGroovyTrait
 import com.themodernway.server.sql.test.util.UsersBean
 
-public class UsersTestsSpecification extends ServerCoreSpecification implements SQLTrait, CoreGroovyTrait
+public class SQLTestsSpecification extends ServerCoreSpecification implements CoreGroovyTrait, GSQLGroovyTrait
 {
     def setupSpec()
     {
-        setupServerCoreDefault(UsersTestsSpecification,
+        setupServerCoreDefault(SQLTestsSpecification,
             "classpath:/com/themodernway/server/sql/test/ApplicationContext.xml",
             "classpath:/com/themodernway/server/core/config/CoreApplicationContext.xml",
             "classpath:/com/themodernway/server/sql/config/SQLApplicationContext.xml"
         )
+        def users = getBeanSafely("UsersBean", UsersBean).setup()
     }
 
     def cleanupSpec()
@@ -38,15 +39,9 @@ public class UsersTestsSpecification extends ServerCoreSpecification implements 
         closeServerCoreDefault()
     }
 
-    def UsersBean users()
-    {
-        getBeanSafely("UsersBean", UsersBean)
-    }
-
     def "Test Users 0"()
     {
         setup:
-        def jdbc = users().setup()
         def time = new NanoTimer()
         def answ = jquery('users', 'SELECT * FROM users')
         echo time
@@ -72,11 +67,25 @@ public class UsersTestsSpecification extends ServerCoreSpecification implements 
         echo answ.getAsArray('users').size()
     }
 
-    def "Test Users 3"()
+    def "Test Users 2"()
     {
         setup:
         def time = new NanoTimer()
-        def answ = jquery('users', 'SELECT * FROM users WHERE COUNT < 10')
+        def answ = jquery('users', 'SELECT * FROM users WHERE VALUE < 10')
+        echo time
+
+        expect:
+        true == true
+
+        cleanup:
+        echo answ
+    }
+
+    def "Test Employees 0"()
+    {
+        setup:
+        def time = new NanoTimer()
+        def answ = jquery('employees', 'SELECT * FROM employees')
         echo time
 
         expect:

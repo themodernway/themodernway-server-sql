@@ -14,18 +14,12 @@
  * limitations under the License.
  */
 
-package com.themodernway.server.sql.support.spring;
-
-import java.io.Closeable;
-import java.util.List;
-
-public interface IGSQLProvider extends Closeable
-{
-    public IGSQLDescriptor getGSQLDescriptor(String name);
-
-    public String getDefaultGSQLDescriptorName();
-
-    public List<String> getGSQLDescriptorNames();
-
-    public List<IGSQLDescriptor> getGSQLDescriptors();
-}
+CREATE TABLE employees (
+  ID NUMERIC UNSIGNED NOT NULL AUTO_INCREMENT,
+  NAME VARCHAR (256) NOT NULL,
+  PRIMARY KEY (ID)
+);
+INSERT INTO employees (NAME) VALUES ('Dean');
+INSERT INTO employees (NAME) VALUES ('John');
+INSERT INTO employees (NAME) VALUES ('Mike');
+INSERT INTO employees (NAME) VALUES ('Nick');

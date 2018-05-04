@@ -14,18 +14,4 @@
  * limitations under the License.
  */
 
-package com.themodernway.server.sql.support.spring;
-
-import java.io.Closeable;
-import java.util.List;
-
-public interface IGSQLProvider extends Closeable
-{
-    public IGSQLDescriptor getGSQLDescriptor(String name);
-
-    public String getDefaultGSQLDescriptorName();
-
-    public List<String> getGSQLDescriptorNames();
-
-    public List<IGSQLDescriptor> getGSQLDescriptors();
-}
+DROP TABLE IF EXISTS employees;

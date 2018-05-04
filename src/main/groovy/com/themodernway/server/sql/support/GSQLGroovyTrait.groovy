@@ -30,7 +30,7 @@ import groovy.transform.CompileStatic
 import groovy.transform.Memoized
 
 @CompileStatic
-public trait SQLTrait
+public trait GSQLGroovyTrait
 {
     @Memoized
     public IGSQLContext getGSQLContext()
@@ -45,26 +45,26 @@ public trait SQLTrait
     }
 
     @Memoized
-    public IGSQLDescriptor getSQLDescriptor(String name)
+    public IGSQLDescriptor getGSQLDescriptor(String name)
     {
-        getGSQLProvider().getSQLDescriptor(CommonOps.requireNonNull(name))
+        getGSQLProvider().getGSQLDescriptor(CommonOps.requireNonNull(name))
     }
 
     @Memoized
-    public IGSQLDescriptor getSQLDescriptor()
+    public IGSQLDescriptor getGSQLDescriptor()
     {
-        getGSQLProvider().getSQLDescriptor(getDefaultSQLDescriptorName())
+        getGSQLProvider().getGSQLDescriptor(getDefaultGSQLDescriptorName())
     }
 
     @Memoized
-    public String getDefaultSQLDescriptorName()
+    public String getDefaultGSQLDescriptorName()
     {
-        getGSQLProvider().getDefaultSQLDescriptorName()
+        getGSQLProvider().getDefaultGSQLDescriptorName()
     }
 
     public GSQL gsql(final String name)
     {
-        final IGSQLDescriptor desc = getSQLDescriptor(CommonOps.requireNonNull(name))
+        final IGSQLDescriptor desc = getGSQLDescriptor(CommonOps.requireNonNull(name))
 
         if (desc)
         {
@@ -75,7 +75,7 @@ public trait SQLTrait
 
     public GSQL gsql()
     {
-        final IGSQLDescriptor desc = getSQLDescriptor()
+        final IGSQLDescriptor desc = getGSQLDescriptor()
 
         if (desc)
         {

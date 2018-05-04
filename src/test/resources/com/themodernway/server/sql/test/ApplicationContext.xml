@@ -20,11 +20,14 @@
 	xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
 	xmlns:cache="http://www.springframework.org/schema/cache"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 						http://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.springframework.org/schema/context
 						http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/jdbc
+						http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
 						http://www.springframework.org/schema/cache
 						http://www.springframework.org/schema/cache/spring-cache.xsd">
 
@@ -40,7 +43,7 @@
 		<property name="locations">
 			<list>
 				<value>file:/opt/development/properties/themodernway-server-core/webapp.properties</value>
-				<value>classpath:/com/themodernway/server/sql/test/jdbc.properties</value>
+				<value>classpath:/com/themodernway/server/sql/test/h2jdbc.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -61,9 +64,9 @@
 		<property name="registerMbeans" value="false" />
 		<property name="dataSourceProperties">
 			<props>
-				<prop key="url">${testing.h2.jdbc}</prop>
-				<prop key="user">${testing.h2.user}</prop>
-				<prop key="password">${testing.h2.pass}</prop>
+				<prop key="url">${h2jdbc.jdbc}</prop>
+				<prop key="user">${h2jdbc.user}</prop>
+				<prop key="password">${h2jdbc.pass}</prop>
 			</props>
 		</property>
 	</bean>
@@ -78,7 +81,29 @@
     </bean>
     
     <bean id="UsersBean" class="com.themodernway.server.sql.test.util.UsersBean" destroy-method="close" lazy-init="true">
-    	<constructor-arg value="${testing.h2.users.rows:1}" />
+    	<constructor-arg value="${h2jdbc.rows:1}" />
     </bean>
+
+	<bean id="GSQLInitializer" class="com.themodernway.server.sql.support.spring.GSQLInitializer">
+		<property name="startup">
+			<bean class="com.themodernway.server.sql.support.spring.GSQLPopulator">
+				<property name="scripts">
+					<list>
+						<value>classpath:/com/themodernway/server/sql/test/cleanup.sql</value>
+						<value>classpath:/com/themodernway/server/sql/test/startup.sql</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="cleanup">
+			<bean class="com.themodernway.server.sql.support.spring.GSQLPopulator">
+				<property name="scripts">
+					<list>
+						<value>classpath:/com/themodernway/server/sql/test/cleanup.sql</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
 	
 </beans>

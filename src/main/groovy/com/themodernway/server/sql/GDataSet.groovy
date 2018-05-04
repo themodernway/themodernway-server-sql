@@ -16,7 +16,7 @@
 
 package com.themodernway.server.sql
 
-import com.themodernway.server.sql.support.SQLSupport
+import com.themodernway.server.sql.support.GSQLSupport
 
 import groovy.sql.DataSet
 import groovy.transform.CompileStatic
@@ -73,11 +73,11 @@ public class GDataSet extends DataSet
 
     public void forConnection(Closure closure)
     {
-        SQLSupport.getSQLSupport().forConnection(this, closure)
+        GSQLSupport.getSQLSupport().forConnection(this, closure)
     }
 
     public void forTransaction(Closure closure)
     {
-        SQLSupport.getSQLSupport().forTransaction(this, closure)
+        GSQLSupport.getSQLSupport().forTransaction(this, closure)
     }
 }
