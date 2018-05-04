@@ -22,5 +22,6 @@ public class GSQLPopulator extends ResourceDatabasePopulator
 {
     public GSQLPopulator()
     {
+        super();
     }
 }

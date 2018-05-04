@@ -26,6 +26,7 @@ public class GSQLInitializer extends DataSourceInitializer
 
     public GSQLInitializer()
     {
+        super();
     }
 
     public void setDescriptor(final IGSQLDescriptor descriptor)

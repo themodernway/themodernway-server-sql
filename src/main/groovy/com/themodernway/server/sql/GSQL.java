@@ -42,7 +42,7 @@ import groovy.sql.Sql;
 
 public class GSQL extends Sql
 {
-    private static IGSQLRowObjectMapper            ROWMAPPER;
+    private static IGSQLRowObjectMapper            rowmapper;
 
     private List<IGSQLStatementSetObjectHandler>   m_setobj_list;
 
@@ -75,10 +75,10 @@ public class GSQL extends Sql
 
     public static final void setDefaultRowObjectMapper(final IGSQLRowObjectMapper mapper)
     {
-        ROWMAPPER = mapper;
+        rowmapper = mapper;
     }
 
-    GSQL(final Sql ds)
+    protected GSQL(final Sql ds)
     {
         super(CommonOps.requireNonNull(ds, "DataSource was null"));
     }
@@ -163,7 +163,7 @@ public class GSQL extends Sql
 
     public static final JSONObject json(final GroovyRowResult result) throws SQLException
     {
-        return json(result, ROWMAPPER);
+        return json(result, rowmapper);
     }
 
     public static final JSONObject json(final GroovyRowResult result, IGSQLRowObjectMapper mapper) throws SQLException
@@ -176,7 +176,7 @@ public class GSQL extends Sql
         }
         if (null == mapper)
         {
-            mapper = ROWMAPPER;
+            mapper = rowmapper;
         }
         if (null == mapper)
         {
@@ -201,7 +201,7 @@ public class GSQL extends Sql
 
     public static final JSONObject json(final GroovyResultSet rset) throws SQLException
     {
-        return json(rset, ROWMAPPER);
+        return json(rset, rowmapper);
     }
 
     public static final JSONObject json(final GroovyResultSet rset, IGSQLRowObjectMapper mapper) throws SQLException
@@ -220,7 +220,7 @@ public class GSQL extends Sql
         }
         if (null == mapper)
         {
-            mapper = ROWMAPPER;
+            mapper = rowmapper;
         }
         if (null == mapper)
         {
@@ -251,7 +251,7 @@ public class GSQL extends Sql
 
     public static final JSONArray jarr(final List<GroovyRowResult> list) throws SQLException
     {
-        return jarr(list, ROWMAPPER);
+        return jarr(list, rowmapper);
     }
 
     public static final JSONArray jarr(final List<GroovyRowResult> list, IGSQLRowObjectMapper mapper) throws SQLException
@@ -264,7 +264,7 @@ public class GSQL extends Sql
         }
         if (null == mapper)
         {
-            mapper = ROWMAPPER;
+            mapper = rowmapper;
         }
         if (null == mapper)
         {
@@ -281,7 +281,7 @@ public class GSQL extends Sql
 
     public static final JSONArray jarr(final GroovyResultSet rset) throws SQLException
     {
-        return jarr(rset, ROWMAPPER);
+        return jarr(rset, rowmapper);
     }
 
     public static final JSONArray jarr(final GroovyResultSet rset, IGSQLRowObjectMapper mapper) throws SQLException
@@ -306,7 +306,7 @@ public class GSQL extends Sql
         }
         if (null == mapper)
         {
-            mapper = ROWMAPPER;
+            mapper = rowmapper;
         }
         if (null == mapper)
         {
