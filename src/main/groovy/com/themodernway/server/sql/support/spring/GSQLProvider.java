@@ -119,6 +119,8 @@ public class GSQLProvider implements BeanFactoryAware, IGSQLProvider, ICoreBase,
     public void close() throws IOException
     {
         IO.close(m_descriptors.values());
+
+        m_descriptors.clear();
     }
 
     @Override
